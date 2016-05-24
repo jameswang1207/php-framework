@@ -19,7 +19,7 @@ define('HTTP_SERVER', $protocol . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER
 //Project root dir
 define('DIR_APPLICATION', str_replace('\\', '/', realpath(dirname(__FILE__))) . '/');
 
-//Db config
+//DB
 if(is_file('db_config.php')){
    require_once('db_config.php');
 }
@@ -31,12 +31,10 @@ if(is_file('install.php')){
 	Install::installConfig();
 }
 
-// Configuration
-if (is_file('config.php')) {
-	require_once('config.php');
+//start up this project
+if(is_file(DIR_SYSTEM.'startup.php')){
+	require_once(DIR_SYSTEM.'startup.php');
 }
 
-// echo DIR_SYSTEM;
-// Startup
-// require_once(DIR_SYSTEM . 'startup.php');
-// start('catalog');
+//Run this framework
+start();
