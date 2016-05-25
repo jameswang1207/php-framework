@@ -26,7 +26,10 @@
 	spl_autoload_register('library');
 	spl_autoload_extensions('.php');
 	
-	// Engine
+    //Rest server
+	require_once(DIR_SYSTEM . 'engine/restException.php');
+	require_once(DIR_SYSTEM . 'engine/restFormat.php');
+	//Engine
 	require_once(DIR_SYSTEM . 'engine/action.php');
 	require_once(DIR_SYSTEM . 'engine/controller.php');
 	require_once(DIR_SYSTEM . 'engine/event.php');

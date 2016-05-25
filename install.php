@@ -17,7 +17,7 @@ class Install {
 	  	}
 	  	//文件全局变量的写入
 	  	$global_dir =  DIR_APPLICATION.'global_config.php';
-	  	if(filesize($global_dir) <=0 ){
+	  	if(filesize($global_dir) <= 0 ){
             self::createFile($file,$global_dir,false);
 	  	}
 	  	require_once($global_dir);

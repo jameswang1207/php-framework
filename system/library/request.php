@@ -14,7 +14,7 @@ class Request {
 		$this->files = $this->clean($_FILES);
 		$this->server = $this->clean($_SERVER);
 	}
-
+	
 	public function clean($data) {
 		if (is_array($data)) {
 			foreach ($data as $key => $value) {
