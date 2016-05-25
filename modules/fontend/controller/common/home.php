@@ -1,10 +1,28 @@
 <?php
-
-#@Controller('/home')
 class ControllerCommonHome extends Controller {
 
-	#@RequestMapping('/index/{username}')
-	public function index() {
-        echo "james";
+
+	/**
+	 *
+	 * @url GET /
+	 */
+	public function test() {
+        return "Hello World";
+	}
+
+	/**
+	 *
+	 * @url GET /index/$id
+	 */
+	public function index($id) {
+        return "Hello World";
+	}
+
+	/**
+	 *
+	 * @url GET /save
+	 */
+	public function save() {
+        return "Hello World";
 	}
 }
