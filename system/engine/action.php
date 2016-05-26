@@ -16,12 +16,14 @@ class Action {
 
 	private $class;
 	private $fileBasePath;
+	private $registry;
+	private $result;
 
 	public function __construct($parts) {
 		// Break apart the route
 		$file = DIR_APPLICATION .'modules/'. $parts[0] . '/controller/' . $parts[1] . '/' . $parts[2] . '.php';
 		if (file_exists($file)) {
-			$this->fileBasePath = $file;
+			$this->fileBasePath = $parts[0] . '/' . $parts[1] . '/' . $parts[2] . '/';
 			require_once($file);
 			$this->class = 'Controller' . ucfirst($parts[1]). ucfirst($parts[2]);
 		}else{
@@ -32,10 +34,12 @@ class Action {
 	public function execute($registry) {
         $this->init('debug');
         if(class_exists($this->class)){
-            $this->addClass($this->class);
+        	$this->registry = $registry;
+            $this->addClass($this->class,$this->fileBasePath);
             $this->handle();
+            return $this->result;
         }else{
-            throw new Exception('Not found class');
+            new Exception('404','Not found class');
         }
 	}
 
@@ -286,7 +290,7 @@ class Action {
 		if ($obj) {
 			if (is_string($obj)) {
 				if (class_exists($obj)) {
-					$obj = new $obj();
+					$obj = new $obj($this->registry);
 				} else {
 					throw new Exception("Class $obj does not exist");
 				}
@@ -303,14 +307,16 @@ class Action {
 					}
 				}
 				$result = call_user_func_array(array($obj, $method), $params);
-				if ($result !== null) {
-					$this->sendData($result);
-				}
+				$this->result = $result;
+                //reurn send data
 			} catch (RestException $e) {
-				$this->handleError($e->getCode(), $e->getMessage());
+				// call handleError  
+				$this->result = new RestException($e->getCode(),$e->getMessage());
 			}
 		} else {
-			$this->handleError(404);
+			// call  handleError
+			// $this->handleError(404);
+			$this->result = new RestException(404,'Object is not found.');
 		}
 	}
 

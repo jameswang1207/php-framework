@@ -27,10 +27,16 @@ class Install {
 		$output  = '<?php' . "\n";
         $file_temp = str_replace(array(" ","　","\t","\n","\r") , array("","","","","") , strtoupper($file_dir));
 		if($flag){
+			$file_dir = 'modules/' .$file_dir;
 			$output .= 'define(\'DIR_' . $file_temp . '\', \'' . DIR_APPLICATION . $file_dir .'\');' . "\n";
 			$output .= 'define(\'DIR_IMAGE_' . $file_temp . '\', \'' . DIR_APPLICATION . $file_dir .'/images/\');' . "\n";
 			$output .= 'define(\'DIR_LANGUAGE_' . $file_temp . '\', \'' . DIR_APPLICATION . $file_dir . '/language/\');' . "\n";
 			$output .= 'define(\'DIR_TEMPLATE_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/template/\');' . "\n";
+			$output .= 'define(\'DIR_CSS_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/css/\');' . "\n";
+			$output .= 'define(\'DIR_FONT_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/font/\');' . "\n";
+			$output .= 'define(\'DIR_IMAGES_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/images/\');' . "\n";
+			$output .= 'define(\'DIR_JS_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/js/\');' . "\n";
+			$output .= 'define(\'DIR_JSLIB_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/jslib/\');' . "\n";
 		}else{
 			$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_APPLICATION . 'system/\');' . "\n";
 			$output .= 'define(\'DIR_CONFIG\', \'' . DIR_APPLICATION . 'system/config/\');' . "\n";
