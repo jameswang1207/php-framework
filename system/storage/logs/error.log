@@ -1,0 +1,252 @@
+2016-05-26 17:44:00 - ControllerCommonHeader Object
+(
+    [registry:protected] => Registry Object
+        (
+            [data:Registry:private] => Array
+                (
+                    [load] => Loader Object
+                        (
+                            [register:Loader:private] => Registry Object
+ *RECURSION*
+                            [method:Loader:private] => 
+                        )
+
+                    [request] => Request Object
+                        (
+                            [get] => Array
+                                (
+                                )
+
+                            [post] => Array
+                                (
+                                )
+
+                            [cookie] => Array
+                                (
+                                    [__atuvc] => 1|20
+                                    [PHPSESSID] => n7ekntidp3bssndjt5nqpbqc91
+                                    [products] => 43,44,36,48,29,49,34,1000,5555,40
+                                )
+
+                            [files] => Array
+                                (
+                                )
+
+                            [server] => Array
+                                (
+                                    [USER] => www-data
+                                    [HOME] => /var/www
+                                    [FCGI_ROLE] => RESPONDER
+                                    [QUERY_STRING] => 
+                                    [REQUEST_METHOD] => GET
+                                    [CONTENT_TYPE] => 
+                                    [CONTENT_LENGTH] => 
+                                    [SCRIPT_FILENAME] => /usr/share/nginx/html/php-framework/index.php
+                                    [SCRIPT_NAME] => /index.php
+                                    [REQUEST_URI] => /fontend/common/header
+                                    [DOCUMENT_URI] => /index.php
+                                    [DOCUMENT_ROOT] => /usr/share/nginx/html/php-framework
+                                    [SERVER_PROTOCOL] => HTTP/1.1
+                                    [GATEWAY_INTERFACE] => CGI/1.1
+                                    [SERVER_SOFTWARE] => nginx/1.4.6
+                                    [REMOTE_ADDR] => 127.0.0.1
+                                    [REMOTE_PORT] => 48366
+                                    [SERVER_ADDR] => 127.0.0.1
+                                    [SERVER_PORT] => 7777
+                                    [SERVER_NAME] => localhost
+                                    [REDIRECT_STATUS] => 200
+                                    [HTTP_HOST] => localhost:7777
+                                    [HTTP_CONNECTION] => keep-alive
+                                    [HTTP_CACHE_CONTROL] => max-age=0
+                                    [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+                                    [HTTP_UPGRADE_INSECURE_REQUESTS] => 1
+                                    [HTTP_USER_AGENT] => Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/49.0.2623.108 Chrome/49.0.2623.108 Safari/537.36
+                                    [HTTP_ACCEPT_ENCODING] => gzip, deflate, sdch
+                                    [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+                                    [HTTP_COOKIE] => __atuvc=1%7C20; PHPSESSID=n7ekntidp3bssndjt5nqpbqc91; products=43%2C44%2C36%2C48%2C29%2C49%2C34%2C1000%2C5555%2C40
+                                    [PHP_SELF] => /index.php
+                                    [REQUEST_TIME_FLOAT] => 1464255840.907
+                                    [REQUEST_TIME] => 1464255840
+                                )
+
+                            [request] => Array
+                                (
+                                )
+
+                        )
+
+                    [config] => Config Object
+                        (
+                            [data:Config:private] => Array
+                                (
+                                    [site_base] => 
+                                    [site_ssl] => 
+                                    [url_autostart] => 1
+                                    [language_default] => en-zh
+                                    [language_autoload] => Array
+                                        (
+                                            [0] => en-zh
+                                        )
+
+                                    [db_autostart] => 
+                                    [db_type] => mysqli
+                                    [db_hostname] => localhost
+                                    [db_username] => root
+                                    [db_password] => 
+                                    [db_database] => 
+                                    [db_port] => 3306
+                                    [mail_protocol] => mail
+                                    [mail_from] => 
+                                    [mail_sender] => 
+                                    [mail_reply_to] => 
+                                    [mail_smtp_hostname] => 
+                                    [mail_smtp_username] => 
+                                    [mail_smtp_password] => 
+                                    [mail_smtp_port] => 25
+                                    [mail_smtp_timeout] => 5
+                                    [mail_verp] => 
+                                    [mail_parameter] => 
+                                    [cache_type] => file
+                                    [cache_expire] => 3600
+                                    [session_autostart] => 1
+                                    [session_name] => PHPSESSID
+                                    [template_type] => php
+                                    [config_error_display] => 1
+                                    [config_error_log] => 1
+                                    [config_error_filename] => error.log
+                                    [response_header] => Array
+                                        (
+                                            [0] => Content-Type: text/html; charset=utf-8
+                                        )
+
+                                    [response_compression] => 0
+                                    [config_autoload] => Array
+                                        (
+                                        )
+
+                                    [library_autoload] => Array
+                                        (
+                                        )
+
+                                    [model_autoload] => Array
+                                        (
+                                        )
+
+                                    [action_default] => common/home
+                                    [action_event] => Array
+                                        (
+                                        )
+
+                                )
+
+                        )
+
+                    [log] => Log Object
+                        (
+                            [handle:Log:private] => Resource id #4
+                        )
+
+                    [response] => Response Object
+                        (
+                            [headers:Response:private] => Array
+                                (
+                                    [0] => Content-Type: text/html; charset=utf-8
+                                )
+
+                            [level:Response:private] => 0
+                            [output:Response:private] => 
+                        )
+
+                    [url] => Url Object
+                        (
+                            [url:Url:private] => 
+                        )
+
+                    [server] => Action Object
+                        (
+                            [url] => fontend/common/header
+                            [method] => GET
+                            [params] => 
+                            [format] => text/plain
+                            [cacheDir] => /home/james/git/php-framework/system/engine/storage/cache
+                            [realm] => rest server
+                            [mode] => debug
+                            [root] => /
+                            [rootPath] => 
+                            [jsonAssoc] => 
+                            [map:protected] => Array
+                                (
+                                    [GET] => Array
+                                        (
+                                            [fontend/common/header] => Array
+                                                (
+                                                    [0] => ControllerCommonHeader
+                                                    [1] => index
+                                                    [2] => Array
+                                                        (
+                                                        )
+
+                                                    [3] => 
+                                                    [4] => 
+                                                )
+
+                                        )
+
+                                )
+
+                            [errorClasses:protected] => Array
+                                (
+                                )
+
+                            [cached:protected] => 
+                            [class:Action:private] => ControllerCommonHeader
+                            [fileBasePath:Action:private] => fontend/common/header/
+                            [registry:Action:private] => Registry Object
+ *RECURSION*
+                            [result:Action:private] => 
+                            [codes:Action:private] => Array
+                                (
+                                    [100] => Continue
+                                    [200] => OK
+                                    [201] => Created
+                                    [202] => Accepted
+                                    [203] => Non-Authoritative Information
+                                    [204] => No Content
+                                    [205] => Reset Content
+                                    [206] => Partial Content
+                                    [300] => Multiple Choices
+                                    [301] => Moved Permanently
+                                    [302] => Found
+                                    [303] => See Other
+                                    [304] => Not Modified
+                                    [305] => Use Proxy
+                                    [307] => Temporary Redirect
+                                    [400] => Bad Request
+                                    [401] => Unauthorized
+                                    [402] => Payment Required
+                                    [403] => Forbidden
+                                    [404] => Not Found
+                                    [405] => Method Not Allowed
+                                    [406] => Not Acceptable
+                                    [409] => Conflict
+                                    [410] => Gone
+                                    [411] => Length Required
+                                    [412] => Precondition Failed
+                                    [413] => Request Entity Too Large
+                                    [414] => Request-URI Too Long
+                                    [415] => Unsupported Media Type
+                                    [416] => Requested Range Not Satisfiable
+                                    [417] => Expectation Failed
+                                    [500] => Internal Server Error
+                                    [501] => Not Implemented
+                                    [503] => Service Unavailable
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+

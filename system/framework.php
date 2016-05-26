@@ -16,13 +16,22 @@ $config = new Config();
 $config->load('default');
 $register->set('config', $config);
 
+// Log
+$log = new Log($config->get('config_error_filename'));
+$register->set('log', $log);
+
 // Response
 $response = new Response();
 $response->addHeader('Content-Type: text/html; charset=utf-8');
 $register->set('response', $response);
 
+//Url
+$url = new Url();
+$register->set('url', $url);
+
 //Front
 $controller = new Front($register);
+
 
 function getDir($dir){
 	$handler = opendir($dir);
@@ -49,7 +58,6 @@ function checkDirectory($dir,$checkDir){
     }
     return $flag;
 }
-
 ###########################################################
 #php-framework url rule
 #  domain/moduleName/packageName/fileName/methodName/parameter

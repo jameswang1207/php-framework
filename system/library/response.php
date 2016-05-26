@@ -9,7 +9,7 @@ class Response {
 	}
 
 	public function redirect($url, $status = 302) {
-		header('Location: ' . str_replace(array('&amp;', "\n", "\r"), array('&', '', ''), $url), true, $status);
+		header('Location: '. $url, $status);
 		exit();
 	}
 
@@ -18,6 +18,10 @@ class Response {
 	}
 
 	public function dispatch($output) {
+		$this->output = $output;
+	}
+
+    public function setOutput($output) {
 		$this->output = $output;
 	}
 
@@ -47,7 +51,7 @@ class Response {
 		if (headers_sent()) {
 			return $data;
 		} 
-        //函数返回当前的连接状态 
+        //函数返回当前的连接状态
 		if (connection_status()) {
 			return $data;
 		}
