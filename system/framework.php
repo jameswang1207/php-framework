@@ -6,22 +6,23 @@ $register = new Registry();
 $loader = new loader($register);
 $register->set('load',$loader);
 
+
 // Request
 $request = new Request();
 $register->set('request', $request);
 
+//Config
 $config = new Config();
 $config->load('default');
 $register->set('config', $config);
 
-$controller = new Front($register);
+// Response
+$response = new Response();
+$response->addHeader('Content-Type: text/html; charset=utf-8');
+$register->set('response', $response);
 
-// Pre Actions
-if ($config->has('action_pre_action')) {
-	foreach ($config->get('action_pre_action') as $value) {
-		$controller->addPreAction(new Action($value));
-	}
-}
+//Front
+$controller = new Front($register);
 
 function getDir($dir){
 	$handler = opendir($dir);
@@ -49,20 +50,12 @@ function checkDirectory($dir,$checkDir){
     return $flag;
 }
 
-
-// function startupFramework($paths){
-//     $controller->dispatch(new Action($paths), new Action($config->get('action_error')));
-//     // Output
-//    // $response->output();
-// }
-
 ###########################################################
 #php-framework url rule
 #  domain/moduleName/packageName/fileName/methodName/parameter
 #example
 #  http://localhost:7777/fontend/common/home/index
 ###########################################################
-
 $path = substr(preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']),1);
 if($path){
 	if(count(explode('/',$path)) >= 3 ){
@@ -77,19 +70,22 @@ if($path){
 				$filePath = $controllerPath.'/'.$controllerName.'/'.$paths[2].'.php';
                 if(file_exists($filePath)){
                     // startupFramework($paths);
-                    $controller->dispatch(new Action($paths,true));
+                    $controller->dispatch(new Action($paths));
+                    // Output
+                    $response->setCompression($config->get('config_compression'));
+                    $response->output();
                 }else{
-					echo "not found controller";
+					echo "Not found controller";
                 }
 			}else{
-				echo "not found controller folder";
+				echo "Not found controller folder";
 			}
 		}else{
-			echo "not found this module";
+			echo "Not found this module";
 		}
 	}else{
-        echo "not found page";
+        echo "Not found page";
 	}
 }else{
-	echo "plase create you project";
+	echo "Plase create you project";
 }
