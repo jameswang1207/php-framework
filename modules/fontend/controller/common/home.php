@@ -26,9 +26,8 @@ class ControllerCommonHome extends Controller {
         // loader某个模板进入Controller中
         // 1.
         // request api  content : $this->load->controller(DIR_CONTROLLER_FONTEND,'common/home');
-        // 2.
+        // 2.在controller中直接拿到register中的内容是在Controller中重写了Controller的__get与__set方法
 		// return $this->load->view(DIR_TEMPLATE_FONTEND . 'common/index.tpl', $data);
-		
 		//loader 某个model进入controller
 
 		// var_dump(file_exists(DIR_TEMPLATE_FONTEND . 'common/index.tpl'));
@@ -41,8 +40,8 @@ class ControllerCommonHome extends Controller {
 	 * @url GET /index
 	 */
 	public function test() {
-        var_dump("james");
-        die();
+		$data = array();
+		$this->response->dispatch($this->load->view(DIR_TEMPLATE_FONTEND . 'common/index.tpl', $data));
 	}
 
 	/**
@@ -60,4 +59,10 @@ class ControllerCommonHome extends Controller {
 	public function save() {
         return "Hello World";
 	}
+
+
+	//init 进controller进行初始话
+    // public function  init(){
+    // 	var_dump("this controller is coming");
+    // }
 }

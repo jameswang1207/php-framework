@@ -73,8 +73,8 @@ final class Loader {
 	}
 
 	public function view($template, $data = array()) {
-		// $this->event->trigger('pre.view.' . str_replace('/', '.', $template), $data);
-
+        $isCompression = $this->register->get('config')->get('is_compression_html');
+        $minity = $this->register->get('minity');
 		$file = $template;
 
 		if (file_exists($file)) {
@@ -91,6 +91,11 @@ final class Loader {
 			trigger_error('Error: Could not load template ' . $file . '!');
 			exit();
 		}
+
+		if($isCompression){
+			$output = $minity->minify_html($output);
+		}
+
 		return $output;
 	}
 

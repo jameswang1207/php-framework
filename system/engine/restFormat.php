@@ -1,4 +1,5 @@
 <?php
+// 返回的类型
 class RestFormat
 {
 	const PLAIN = 'text/plain';

@@ -65,3 +65,6 @@ $_['model_autoload']       = array();
 $_['action_default']       = 'common/home';
 
 $_['action_event']         = array();
+
+//Set html  output is compression :true  压缩 false 不压缩
+$_['is_compression_html']         = true;
