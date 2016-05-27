@@ -11,7 +11,6 @@
     // Windows IIS Compatibility
     //Check if SSL
   
-
     //Auto_loader library
 	function library($class) {
 		$file = DIR_SYSTEM . 'library/' . str_replace('\\', '/', strtolower($class)) . '.php';

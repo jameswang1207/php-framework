@@ -16,6 +16,14 @@ $config = new Config();
 $config->load('default');
 $register->set('config', $config);
 
+//加载压缩工具
+$minity = new Minify();
+$register->set('minity', $minity);
+
+// Database
+$db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT);
+$register->set('db', $db);
+
 // Log
 $log = new Log($config->get('config_error_filename'));
 $register->set('log', $log);
@@ -31,7 +39,6 @@ $register->set('url', $url);
 
 //Front
 $controller = new Front($register);
-
 
 function getDir($dir){
 	$handler = opendir($dir);
@@ -58,6 +65,7 @@ function checkDirectory($dir,$checkDir){
     }
     return $flag;
 }
+
 ###########################################################
 #php-framework url rule
 #  domain/moduleName/packageName/fileName/methodName/parameter
@@ -79,8 +87,7 @@ if($path){
                 if(file_exists($filePath)){
                     // startupFramework($paths);
                     $controller->dispatch(new Action($paths));
-                    // Output
-                    $response->setCompression($config->get('config_compression'));
+
                     $response->output();
                 }else{
 					echo "Not found controller";

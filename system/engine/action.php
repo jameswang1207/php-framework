@@ -3,7 +3,6 @@ class Action {
 	public $url;
 	public $method;
 	public $params;
-	public $format;
 	public $cacheDir = __DIR__;
 	public $realm;
 	public $mode;
@@ -11,7 +10,6 @@ class Action {
 	public $rootPath;
 	public $jsonAssoc = false;
 	protected $map = array();
-	protected $errorClasses = array();
 	protected $cached;
 
 	private $class;
@@ -43,10 +41,9 @@ class Action {
         }
 	}
 
-	public function init($mode = 'debug', $realm = 'rest server'){   
+	public function init($mode = 'debug'){   
 		$this->cacheDir = $this->cacheDir . '/storage/cache';
 		$this->mode = $mode;
-		$this->realm = $realm;
 		// Set the root
 		$dir = str_replace('\\', '/', dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME'])));
 		if ($dir == '.') {
@@ -98,7 +95,6 @@ class Action {
 		$methods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
 		foreach ($methods as $method) {
 			$doc = $method->getDocComment();
-			$noAuth = strpos($doc, '@noAuth') !== false;
 		    /**
 		    *GET（SELECT）：从服务器取出资源（一项或多项）
 			*POST（CREATE）：在服务器新建一个资源
@@ -128,7 +124,6 @@ class Action {
 					}
 					$call[] = $args;
 					$call[] = null;
-					$call[] = $noAuth;
 
 					$this->map[$httpMethod][$url] = $call;
 				}
@@ -183,39 +178,6 @@ class Action {
 			$method = 'DELETE';
 		}
 		return $method;
-	}
-
-	//Get response data type
-	public function getFormat(){
-		$format = RestFormat::PLAIN;
-		$accept_mod = null;
-		if(isset($_SERVER["HTTP_ACCEPT"])) {
-			//将http_accept中的空格去掉
-			$accept_mod = preg_replace('/\s+/i', '', $_SERVER['HTTP_ACCEPT']);
-		}
-		$accept = explode(',', $accept_mod);
-		$override = '';
-
-		if (isset($_REQUEST['format']) || isset($_SERVER['HTTP_FORMAT'])) {
-			// 优先给GET/POST重写请求头
-			$override = isset($_SERVER['HTTP_FORMAT']) ? $_SERVER['HTTP_FORMAT'] : '';
-			$override = isset($_REQUEST['format']) ? $_REQUEST['format'] : $override;
-			$override = trim($override);
-		}
-
-		// Check for trailing dot-format syntax like /controller/action.format -> action.json
-		if(preg_match('/\.(\w+)$/i', strtok($_SERVER["REQUEST_URI"],'?'), $matches)) {
-			$override = $matches[1];
-		}
-
-		// Give GET parameters precedence before all other options to alter the format
-		$override = isset($_GET['format']) ? $_GET['format'] : $override;
-		if (isset(RestFormat::$formats[$override])) {
-			$format = RestFormat::$formats[$override];
-		} elseif (in_array(RestFormat::JSON, $accept)) {
-			$format = RestFormat::JSON;
-		}
-		return $format;
 	}
 
     //Get request original data's stream
@@ -280,13 +242,10 @@ class Action {
 	public function handle(){
 		$this->url = $this->getPath();
 		$this->method = $this->getMethod();
-		$this->format = $this->getFormat();
-
 		if ($this->method == 'PUT' || $this->method == 'POST') {
 			$this->data = $this->getData();
 		}
-
-		list($obj, $method, $params, $this->params, $noAuth) = $this->findUrl();
+		list($obj, $method, $params, $this->params) = $this->findUrl();
 		if ($obj) {
 			if (is_string($obj)) {
 				if (class_exists($obj)) {
@@ -300,12 +259,7 @@ class Action {
 				if (method_exists($obj, 'init')) {
 					$obj->init();
 				}
-				if (!$noAuth && method_exists($obj, 'authorize')) {
-					if (!$obj->authorize()) {
-						$this->sendData($this->unauthorized(true)); //@todo unauthorized returns void
-						exit;
-					}
-				}
+                
 				$result = call_user_func_array(array($obj, $method), $params);
 				$this->result = $result;
                 //reurn send data
@@ -319,130 +273,6 @@ class Action {
 			$this->result = new RestException(404,'Object is not found.');
 		}
 	}
-
-    ##############################
-    #   错误处理方法
-    ##############################
-	public function unauthorized($ask = false){
-		if ($ask) {
-			header("WWW-Authenticate: Basic realm=\"$this->realm\"");
-		}
-		throw new RestException(401, "You are not authorized to access this resource.");
-	}
-
-	public function handleError($statusCode, $errorMessage = null){
-		$method = "handle$statusCode";
-		foreach ($this->errorClasses as $class) {
-			if (is_object($class)) {
-				$reflection = new ReflectionObject($class);
-			} elseif (class_exists($class)) {
-				$reflection = new ReflectionClass($class);
-			}
-
-			if (isset($reflection))
-			{
-				if ($reflection->hasMethod($method))
-				{
-					$obj = is_string($class) ? new $class() : $class;
-					$obj->$method();
-					return;
-				}
-			}
-		}
-		if (!$errorMessage)
-		{
-			$errorMessage = $this->codes[$statusCode];
-		}
-		$this->setStatus($statusCode);
-		$this->sendData(array('error' => array('code' => $statusCode, 'message' => $errorMessage)));
-	}
-	
-	###################
-	#  Response data
-	###################
-	
-    //Response status code
-	public function setStatus($code){
-		if (function_exists('http_response_code')) {
-			http_response_code($code);
-		} else {
-			$protocol = $_SERVER['SERVER_PROTOCOL'] ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
-			$code .= ' ' . $this->codes[strval($code)];
-			header("$protocol $code");
-		}
-	}
-
-	//send data to client
-	public function sendData($data){
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Expires: 0");
-		header('Content-Type: ' . $this->format);
-
-		if ($this->format == RestFormat::XML) {
-
-		if (is_object($data) && method_exists($data, '__keepOut')) {
-				$data = clone $data;
-				foreach ($data->__keepOut() as $prop) {
-					unset($data->$prop);
-				}
-			}
-			$this->xml_encode($data);
-		} else {
-			if (is_object($data) && method_exists($data, '__keepOut')) {
-				$data = clone $data;
-				foreach ($data->__keepOut() as $prop) {
-					unset($data->$prop);
-				}
-			}
-			$options = 0;
-			if ($this->mode == 'debug') {
-				$options = JSON_PRETTY_PRINT;
-			}
-			$options = $options | JSON_UNESCAPED_UNICODE;
-			echo json_encode($data, $options);
-		}
-	}
-
-    // response xml
-	private function xml_encode($mixed, $domElement=null, $DOMDocument=null) {
-		if (is_null($DOMDocument)) {
-			$DOMDocument =new DOMDocument;
-			$DOMDocument->formatOutput = true;
-			$this->xml_encode($mixed, $DOMDocument, $DOMDocument);
-			echo $DOMDocument->saveXML();
-		}
-		else {
-			if (is_array($mixed)) {
-				foreach ($mixed as $index => $mixedElement) {
-					if (is_int($index)) {
-						if ($index === 0) {
-							$node = $domElement;
-						}
-						else {
-							$node = $DOMDocument->createElement($domElement->tagName);
-							$domElement->parentNode->appendChild($node);
-						}
-					}
-					else {
-						$plural = $DOMDocument->createElement($index);
-						$domElement->appendChild($plural);
-						$node = $plural;
-						if (!(rtrim($index, 's') === $index)) {
-							$singular = $DOMDocument->createElement(rtrim($index, 's'));
-							$plural->appendChild($singular);
-							$node = $singular;
-						}
-					}
-
-					$this->xml_encode($mixedElement, $node, $DOMDocument);
-				}
-			}
-			else {
-				$domElement->appendChild($DOMDocument->createTextNode($mixed));
-			}
-		}
-	}
-
 	private $codes = array(
 		'100' => 'Continue',
 		'200' => 'OK',
@@ -460,7 +290,6 @@ class Action {
 		'305' => 'Use Proxy',
 		'307' => 'Temporary Redirect',
 		'400' => 'Bad Request',
-		'401' => 'Unauthorized',
 		'402' => 'Payment Required',
 		'403' => 'Forbidden',
 		'404' => 'Not Found',
