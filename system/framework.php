@@ -16,14 +16,18 @@ $config = new Config();
 $config->load('default');
 $register->set('config', $config);
 
+<<<<<<< HEAD
 // Log
 $log = new Log($config->get('config_error_filename'));
 $register->set('log', $log);
 
+=======
+>>>>>>> cfc48d3f7ec37eebcebf343a97c0dc2ebfd0e3ff
 // Response
 $response = new Response();
 $response->addHeader('Content-Type: text/html; charset=utf-8');
 $register->set('response', $response);
+<<<<<<< HEAD
 
 //Url
 $url = new Url();
@@ -32,6 +36,11 @@ $register->set('url', $url);
 //Front
 $controller = new Front($register);
 
+=======
+
+//Front
+$controller = new Front($register);
+>>>>>>> cfc48d3f7ec37eebcebf343a97c0dc2ebfd0e3ff
 
 function getDir($dir){
 	$handler = opendir($dir);
@@ -58,6 +67,10 @@ function checkDirectory($dir,$checkDir){
     }
     return $flag;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> cfc48d3f7ec37eebcebf343a97c0dc2ebfd0e3ff
 ###########################################################
 #php-framework url rule
 #  domain/moduleName/packageName/fileName/methodName/parameter

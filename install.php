@@ -37,8 +37,6 @@ class Install {
 			$output .= 'define(\'DIR_IMAGES_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/images/\');' . "\n";
 			$output .= 'define(\'DIR_JS_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/js/\');' . "\n";
 			$output .= 'define(\'DIR_JSLIB_' . $file_temp . '\', \'' . DIR_APPLICATION .  $file_dir .'/view/jslib/\');' . "\n";
-			$output .= 'define(\'DIR_CONTROLLER_' . $file_temp . '\', \'' . DIR_APPLICATION . $file_dir .'/controller/\');' . "\n";
-			$output .= 'define(\'DIR_MODEL_' . $file_temp . '\', \'' . DIR_APPLICATION . $file_dir .'/model/\');' . "\n";
 		}else{
 			$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_APPLICATION . 'system/\');' . "\n";
 			$output .= 'define(\'DIR_CONFIG\', \'' . DIR_APPLICATION . 'system/config/\');' . "\n";

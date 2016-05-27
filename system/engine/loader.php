@@ -52,15 +52,38 @@ final class Loader {
 		}
 	}
 
-	public function view($template, $data = array()) {
-		$file = $template;
-		if (file_exists($file)) {
+	public function model($model, $data = array()) {
+		// $this->event->trigger('pre.model.' . str_replace('/', '.', (string)$model), $data);
 
+		$model = str_replace('../', '', (string)$model);
+
+		$file = DIR_APPLICATION . 'model/' . $model . '.php';
+		$class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
+
+		if (file_exists($file)) {
+			include_once($file);
+
+			$this->registry->set('model_' . str_replace('/', '_', $model), new $class($this->registry));
+		} else {
+			trigger_error('Error: Could not load model ' . $file . '!');
+			exit();
+		}
+
+		// $this->event->trigger('post.model.' . str_replace('/', '.', (string)$model), $output);
+	}
+
+	public function view($template, $data = array()) {
+		// $this->event->trigger('pre.view.' . str_replace('/', '.', $template), $data);
+
+		$file = $template;
+
+		if (file_exists($file)) {
 			extract($data);
 
 			ob_start();
 
 			require($file);
+
 			$output = ob_get_contents();
 
 			ob_end_clean();
@@ -94,5 +117,28 @@ final class Loader {
 			trigger_error('Error: Could not load model ' . $file . '!');
 			exit();
 		}
+	}
+		// $this->event->trigger('post.view.' . str_replace('/', '.', $template), $output);
+
+		return $output;
+	}
+
+	public function helper($helper) {
+		$file = DIR_SYSTEM . 'helper/' . str_replace('../', '', (string)$helper) . '.php';
+
+		if (file_exists($file)) {
+			include_once($file);
+		} else {
+			trigger_error('Error: Could not load helper ' . $file . '!');
+			exit();
+		}
+	}
+
+	public function config($config) {
+		$this->registry->get('config')->load($config);
+	}
+
+	public function language($language) {
+		return $this->registry->get('language')->load($language);
 	}
 }

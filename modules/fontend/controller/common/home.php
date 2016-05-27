@@ -30,8 +30,11 @@ class ControllerCommonHome extends Controller {
 		// return $this->load->view(DIR_TEMPLATE_FONTEND . 'common/index.tpl', $data);
 		
 		//loader 某个model进入controller
-	}
 
+		// var_dump(file_exists(DIR_TEMPLATE_FONTEND . 'common/index.tpl'));
+		// // die();
+		$this->response->dispatch($this->load->view(DIR_TEMPLATE_FONTEND . 'common/index.tpl', $data));
+	}
 
 	/**
 	 *
@@ -46,9 +49,8 @@ class ControllerCommonHome extends Controller {
 	 *
 	 * @url GET /index/$id/$name
 	 */
-	public function getId($id,$name) {
-        var_dump($id.$name);
-        die();
+	public function getId($id) {
+        return $id;
 	}
 
 	/**
