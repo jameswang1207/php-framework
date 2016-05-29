@@ -6,7 +6,6 @@
 	if (version_compare(phpversion(), '5.3.0', '<') == true) {
 		exit('PHP5.3+ Required');
 	}
-
     //Magic Quotes Fix
     // Windows IIS Compatibility
     //Check if SSL

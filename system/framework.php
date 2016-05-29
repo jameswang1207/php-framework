@@ -21,8 +21,8 @@ $minity = new Minify();
 $register->set('minity', $minity);
 
 // Database
-$db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT);
-$register->set('db', $db);
+// $db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT);
+// $register->set('db', $db);
 
 // Log
 $log = new Log($config->get('config_error_filename'));
@@ -65,7 +65,6 @@ function checkDirectory($dir,$checkDir){
     }
     return $flag;
 }
-
 ###########################################################
 #php-framework url rule
 #  domain/moduleName/packageName/fileName/methodName/parameter

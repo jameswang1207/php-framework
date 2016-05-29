@@ -7,4 +7,4 @@ define('DB_PORT', '3306');
 define('DB_DATABASE', 'jamestest');
 
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'mysql');
+define('DB_PASSWORD', 'abc123_');
