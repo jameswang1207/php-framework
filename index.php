@@ -1,7 +1,6 @@
 <?php
 // Version
 define('VERSION', '0.0.0.1');
-
 //error level
 error_reporting(E_ALL);
 

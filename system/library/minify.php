@@ -10,7 +10,6 @@ class Minify {
         // Minify inline CSS declaration(s)
         if(strpos($input, ' style=') !== false) {
             $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
-                var_dump($matches);
                 return '<' . $matches[1] . ' style=' . $matches[2] . $this->minify_css($matches[3]) . $matches[2];
             }, $input);
         }
