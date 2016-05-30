@@ -46,10 +46,11 @@ class ControllerCommonHome extends Controller {
 
 	/**
 	 *
-	 * @url GET /index/$id/$name
+	 * @url GET /index/$id
 	 */
 	public function getId($id) {
-        return $id;
+		var_dump($id);
+        die();
 	}
 
 	/**

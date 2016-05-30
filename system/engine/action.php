@@ -204,6 +204,8 @@ class Action {
 					return $call;
 				}
 			} else {
+				// preg_quote
+				// 向正则表达式的特殊字符前加斜杠
 				$regex = preg_replace('/\\\\\$([\w\d]+)\.\.\./', '(?P<$1>.+)', str_replace('\.\.\.', '...', preg_quote($url)));
 				$regex = preg_replace('/\\\\\$([\w\d]+)/', '(?P<$1>[^\/]+)', $regex);
 				if (preg_match(":^$regex$:", urldecode($this->url), $matches)) {
