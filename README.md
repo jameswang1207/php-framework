@@ -50,7 +50,6 @@ server {
 }
 ```
 
-
 **Restart nginx to make the configuration work**
 
 ```sh
@@ -74,8 +73,8 @@ sudo service nginx restart
 Check file config.php under fontend folder and global_config.php under root,so it content not empty you must be remove content.
 
 2.Modify database config abount Own configuration(db_config.php under root)
+
 ```php
-<?php
 //DB_DRIVER 不能修改 php 5.5 以上版本
 define('DB_DRIVER', 'mysqli');
 // DB
@@ -92,11 +91,12 @@ Then replace  @@@@ your configuration.
 ## Controller
 Add the controller in the folder "controller"
 ###Support restful.
+
 * No parameter
     * '@url GET /index' : request index method
     * http://localhost:8100/fontend/common/header
+
 ```php
-<?php
 class ControllerCommonHeader extends Controller {
     /**
      * this function is default.
@@ -106,11 +106,12 @@ class ControllerCommonHeader extends Controller {
     }
 }
 ```
+
 * Exist parameter
     * '@url GET /update/$id' : request index method
     * http://localhost:8100/fontend/common/header/update/12
+
 ```php
-<?php
 class ControllerCommonHeader extends Controller {
     /**
      * this function is default.
@@ -120,11 +121,12 @@ class ControllerCommonHeader extends Controller {
     }
 }
 ```
+
 * Exist parameter
     * '@url GET /save/$username/$age' : request index method
     * http://localhost:8100/fontend/common/header/save/james/12
+
 ```php
-<?php
 class ControllerCommonHeader extends Controller {
     /**
      * this function is default.
@@ -134,17 +136,20 @@ class ControllerCommonHeader extends Controller {
     }
 }
 ```
+
 ###Controller default method.
 The method performs prior to the execution of the other method of the current class
+
 ```php
-<?php
 class ControllerCommonHeader extends Controller {
     public function init() {
     }
 }
 ```
+
 ###Use controller
 The variable is the config.php below the current module.
+
 ```php
     /**
      * this function is default.
@@ -179,8 +184,8 @@ The variable is the config.php below the current module.
 
 ## Model
 model name and file name correspondence.
+
 ```php
-<?php
 class ModelCommonHome extends Model {
     public function getTest(){
        return  "test";
@@ -189,6 +194,7 @@ class ModelCommonHome extends Model {
 ```
 
 ## View
+
 ```
 <!DOCTYPE html>
 <html lang="en">
@@ -206,8 +212,16 @@ class ModelCommonHome extends Model {
 1.Set parameter at /system/config/default.php
 
 ```php
-<?php
 //set true or false
 $_['is_compression_html']         = true;
 ```
+
+#php-resque
+
+>PHP-Resque内置可同时开启多个进程,对于海量数据下发来说非常必要,同时不需要自己再写代码实现多进程或多线程了.
+
+>Job | 任务 ： 一个Job就是一个需要在后台完成的任务，比如本文举例的发送邮件，就可以抽象为一个Job。在Resque中一个Job就是一个Class。
+Queue | 队列 ： 也就是上文的消息队列，在Resque中，队列则是由Redis实现的。Resque还提供了一个简单的队列管理器，可以实现将Job插入/取出队列等功能。
+Worker | 执行者 ： 负责从队列中取出Job并执行，可以以守护进程的方式运行在后台。
+
 
