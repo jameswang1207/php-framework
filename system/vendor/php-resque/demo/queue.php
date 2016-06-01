@@ -1,13 +1,12 @@
 <?php
-if(empty($argv[1])) {
-	die('Specify the name of a job to add. e.g, php queue.php PHP_Job');
-}
-
+// if(empty($argv[1])) {
+// 	die('Specify the name of a job to add. e.g, php queue.php PHP_Job');
+// }
 require __DIR__ . '/init.php';
 date_default_timezone_set('GMT');
 
 //Connect the redis.
-Resque::setBackend('127.0.0.1:6379',4);
+Resque::setBackend('127.0.0.1:6379');
 
 //Task content.
 $args = array(
@@ -28,6 +27,7 @@ $args = array(
  *
  * @return string|boolean Job ID when the job was created, false if creation was cancelled due to beforeEnqueue
 */
+
 $jobId = Resque::enqueue('default', 'PHP_Job', $args, true);
 
 echo "Queued job ".$jobId."\n\n";

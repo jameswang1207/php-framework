@@ -7,7 +7,6 @@ class PHP_Job
 	 */
 	public function perform()
 	{
-        echo $this->args['name'];
-        echo "=============================";
+        fwrite(STDOUT, 'Hello!');
 	}
 }
